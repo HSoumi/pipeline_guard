@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS Credentials via OIDC
         uses: aws-actions/configure-aws-credentials@e3dd11e37d98c6ff836116a1e378fa4001ca42a5 # v4.0.2
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/relay-eks-cicd-deployer-role
+          role-to-assume: arn:aws:iam::123456789012:role/eks-cicd-deployer-role
           aws-region: us-east-1
 
       # Deterministic dependency installation with integrity checks
