@@ -1,0 +1,34 @@
+name: Secure Deploy Service to EKS
+
+on:
+  push:
+    branches: [ main ]
+
+# Granular, least-privilege token permissions
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to full 40-character immutable commit SHA
+      - name: Checkout Source Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      # Short-lived AWS IAM OIDC Federation (no static secrets)
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@e3dd11e37d98c6ff836116a1e378fa4001ca42a5 # v4.0.2
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/relay-eks-cicd-deployer-role
+          aws-region: us-east-1
+
+      # Deterministic dependency installation with integrity checks
+      - name: Install Application Dependencies
+        run: |
+          npm ci --ignore-scripts
+
+      - name: Deploy Container to EKS Cluster
+        run: |
+          ./scripts/deploy-eks.sh --env production
