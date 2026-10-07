@@ -19,15 +19,20 @@ Modern CI/CD pipelines frequently hold privileged access to cloud environments. 
 
 Audit a single workflow file:
 ```bash
-python relay_pipeline_guard.py .github/workflows/deploy.yml
+python pipeline_guard.py test_workflows/mock_vulnerable_workflow.yml
 ```
 
-Audit an entire repository with structured JSON output (designed for CI gates):
+Audit an entire directory with structured JSON output (designed for CI/CD gates):
 ```bash
-python relay_pipeline_guard.py .github/workflows/ --json
+python pipeline_guard.py test_workflows/ --json
+```
+
+Verify a compliant workflow:
+```bash
+python pipeline_guard.py test_workflows/mock_secure_workflow.yml
 ```
 
 ## Exit Codes
 
 - `0`: All checks passed; no policy violations detected.
-- `1`: One or more security policy violations detected (or invalid target path).
+- `1`: One or more security policy violations detected (or invalid target path). Automatically blocks the CI/CD pipeline from deploying insecure changes.
