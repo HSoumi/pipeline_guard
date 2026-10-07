@@ -14,28 +14,28 @@ SEVERITY_WEIGHT = {
 # Static Detection Signatures
 DANGEROUS_PATTERNS = [
     {
-        "id": "RLY-SEC-001",
+        "id": "SEC-001",
         "severity": "CRITICAL",
         "title": "Static AWS Secret Keys in Workflow Environment",
         "regex": r"(?i)(aws[-_]?access[-_]?key[-_]?id|aws[-_]?secret[-_]?access[-_]?key)\s*:\s*\${{\s*secrets\.",
         "remediation": "Migrate from static AWS secret keys to AWS IAM OIDC Role Federation (aws-actions/configure-aws-credentials with web identity token)."
     },
     {
-        "id": "RLY-SEC-002",
+        "id": "SEC-002",
         "severity": "HIGH",
         "title": "Overly Permissive Workflow Permissions (write-all)",
         "regex": r"permissions\s*:\s*write-all",
         "remediation": "Declare explicit granular permissions at the top-level or job-level (e.g., contents: read, id-token: write)."
     },
     {
-        "id": "RLY-SEC-003",
+        "id": "SEC-003",
         "severity": "MEDIUM",
         "title": "Mutable Action Reference without Commit SHA Pinning",
         "regex": r"uses\s*:\s*[a-zA-Z0-9_\-\/]+@v[0-9]+",
         "remediation": "Pin third-party GitHub Actions to an immutable 40-character commit SHA to prevent upstream tag-hijacking."
     },
     {
-        "id": "RLY-SEC-004",
+        "id": "SEC-004",
         "severity": "MEDIUM",
         "title": "Non-Deterministic Package Installation (npm install)",
         "regex": r"npm\s+install(?!\s+--ignore-scripts|\s+ci)",
