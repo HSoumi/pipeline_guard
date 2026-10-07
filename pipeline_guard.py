@@ -70,7 +70,7 @@ def sort_findings(findings):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python relay_pipeline_guard.py <file_or_directory_path> [--json]")
+        print("Usage: python pipeline_guard.py <file_or_directory_path> [--json]")
         sys.exit(1)
 
     target_path = sys.argv[1]
