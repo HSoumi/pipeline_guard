@@ -1,0 +1,30 @@
+name: Deploy Service to EKS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions: write-all
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Configure Static AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install Application Dependencies
+        run: |
+          npm install
+
+      - name: Deploy Container to EKS Cluster
+        run: |
+          ./scripts/deploy-eks.sh --env production
